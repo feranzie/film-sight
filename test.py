@@ -1,27 +1,13 @@
-import detect
-import subprocess
+import torch
 
-# Define the command and arguments
-command = ['python', 'detect.py', '--weights', 'yolov5s.pt', '--source', 'IMG_9619.MOV', '--view-img']
+# Model
+model = torch.hub.load("ultralytics/yolov5", "yolov5s")  # or yolov5n - yolov5x6, custom
 
-# Run the commandimport subprocess
-import time
+# Images
+img = "IMG-20190103-WA0001.jpg"  # or file, Path, PIL, OpenCV, numpy, list
 
-# Define the command and arguments
-#command = ['python', 'detect.py', '--source', 'path/to/input', '--weights', 'path/to/weights', '--output', 'path/to/output']
+# Inference
+results = model(img)
 
-# Run the command every 30 seconds
-while True:
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-    # Parse the output and extract the labels
-    labels = []
-    for line in result.stdout.decode('utf-8').splitlines():
-        if line.startswith('      '):
-            labels.append(line.strip())
-    
-    # Print the labels as a list
-    print(labels)
-    
-    # Wait for 30 seconds before running the command again
-    time.sleep(30)
+# Results
+results.print()  # or .show(), .save(), .crop(), .pandas(), etc.
