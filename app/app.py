@@ -23,8 +23,8 @@ def detect():
     video = request.files['video']
     video.save(os.path.join(uploads_dir, secure_filename(video.filename)))
     print(video)
-    subprocess.run("ls", shell=True)
-    subprocess.run(['python', 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename))], shell=True)
+    subprocess.run("ls")
+    subprocess.run(['python3', 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename))])
 
     # return os.path.join(uploads_dir, secure_filename(video.filename))
     obj = secure_filename(video.filename)
@@ -33,7 +33,7 @@ def detect():
 @app.route("/opencam", methods=['GET'])
 def opencam():
     print("here")
-    subprocess.run(['python', 'detect.py', '--source', '0'])
+    subprocess.run(['python3', 'detect.py', '--source', '0'])
     return "done"
     
 
@@ -47,9 +47,6 @@ def return_file():
         # return send_from_directory(loc, obj)
     except Exception as e:
         return str(e)
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 # @app.route('/display/<filename>')
 # def display_video(filename):
