@@ -30,11 +30,17 @@ def detect():
     obj = secure_filename(video.filename)
     return obj
 
+
+
+
+
 @app.route("/opencam", methods=['GET'])
 def opencam():
     print("here")
     subprocess.run(['python', 'detect.py', '--source', '0'])
     return "done"
+
+
     
 
 @app.route('/return-files', methods=['GET'])
