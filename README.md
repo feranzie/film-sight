@@ -9,3 +9,7 @@ cloud host
 bugs:
 How to stop threading?
 what if we have no detections at the 30 sec time interval ?
+
+
+Keyboard interuppt threading\
+connect to open ai
