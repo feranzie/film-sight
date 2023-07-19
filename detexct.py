@@ -286,15 +286,10 @@ def main(opt):
     update.start()
     printer = threading.Thread(target=print_variable)
     printer.start()
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("\nKeyboard interrupt received. Stopping threads...")
-        stop_flag = False
+   
     update.join()
     printer.join()
-
+    terminate_flag = True
 if __name__ == '__main__':
     opt = parse_opt()
     main(opt)
