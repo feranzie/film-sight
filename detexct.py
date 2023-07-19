@@ -222,20 +222,24 @@ def run(
             LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}{s}")
         if update:
             strip_optimizer(weights[0])  # update model (to fix SourceChangeWarning)
-    pass
+        pass
     print("Thread 1 terminated.")
     
 #tz="baller"    
     #time.sleep(1)
 
 def print_variable():
+    global terminate_flag
     global glob 
-    while True:
-        #print(f'30 s elapsed: {s}')
-        #print('n')
-        LOGGER.info(f'{glob}')
-        #LOGGER.info(f'Speed:')
-        time.sleep(30)
+    while not terminate_flag:
+        while True:
+            #print(f'30 s elapsed: {s}')
+            #print('n')
+            LOGGER.info(f'{glob}')
+            #LOGGER.info(f'Speed:')
+            time.sleep(30)
+        pass
+    print("Thread 2 terminated.")
 
 
 
