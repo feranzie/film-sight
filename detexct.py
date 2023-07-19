@@ -236,13 +236,17 @@ def print_variable():
     global terminate_flag
     global glob 
     while not terminate_flag:
-        while True:
-            #print(f'30 s elapsed: {s}')
-            #print('n')
-            LOGGER.info(f'{glob}')
-            #LOGGER.info(f'Speed:')
-            time.sleep(30)
-        pass
+        try:
+            while True:
+                #print(f'30 s elapsed: {s}')
+                #print('n')
+                LOGGER.info(f'{glob}')
+                #LOGGER.info(f'Speed:')
+                time.sleep(30)
+            pass
+        except KeyboardInterrupt:
+            print("Thread 2 received KeyboardInterrupt. Terminating...")
+            terminate_flag = True
     print("Thread 2 terminated.")
 
 
