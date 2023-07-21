@@ -224,7 +224,7 @@ def run(
             if update:
                 strip_optimizer(weights[0])  # update model (to fix SourceChangeWarning)
             pass
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, SystemExit):
             print("Thread 1 received KeyboardInterrupt. Terminating...")
             terminate_flag = True
     print("Thread 1 terminated.")
@@ -244,7 +244,7 @@ def print_variable():
                 #LOGGER.info(f'Speed:')
                 time.sleep(30)
             pass
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, SystemExit):
             print("Thread 2 received KeyboardInterrupt. Terminating...")
             terminate_flag = True
     print("Thread 2 terminated.")
