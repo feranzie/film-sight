@@ -51,7 +51,7 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
 
-terminate_flag = False
+thread_running = True
 @smart_inference_mode()
 def run(
         weights=ROOT / 'yolov5s.pt',  # model path or triton URL
@@ -225,15 +225,18 @@ def run(
 #tz="baller"    
     #time.sleep(1)
 
-def print_variable():
+def print_variable(stop_event):
     global terminate_flag
     global glob 
-    while True:
-        #print(f'30 s elapsed: {s}')
-        #print('n')
-        LOGGER.info(f'{glob}')
-        #LOGGER.info(f'Speed:')
-        time.sleep(30)
+    try:
+        while True:
+            #print(f'30 s elapsed: {s}')
+            #print('n')
+            LOGGER.info(f'{glob}')
+            #LOGGER.info(f'Speed:')
+            time.sleep(30)
+    except KeyboardInterrupt:
+        print("Keyboard Manual Interrupt. Ege is Gay")    
 
 
 
@@ -278,12 +281,22 @@ def main(opt):
     global stop_flag
     check_requirements(ROOT / 'requirements.txt', exclude=('tensorboard', 'thop'))
     update=threading.Thread(target=run, kwargs=vars(opt))
-    update.start()
-    printer = threading.Thread(target=print_variable)
-    printer.start()
-   
-    update.join()
-    printer.join()
+    printer = threading.Thread(target=print_variable, args=[stop_event])
+    update.daemon = True
+    printer.daemon = True 
+    stop_event = threading.Event()
+
+    try:
+        update.start()
+        printer.start()
+    
+        update.join()
+    except:
+        print("Keyboard Manual Interrupt. Ege is Gay")
+    thread_running = False
+
+    print("Program Finished")
+    exit()
     terminate_flag = True
 if __name__ == '__main__':
     opt = parse_opt()
