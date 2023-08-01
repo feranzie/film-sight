@@ -24,7 +24,7 @@ def detect():
     video.save(os.path.join(uploads_dir, secure_filename(video.filename)))
     print(video)
     #subprocess.run("ls", shell=True)
-    subprocess.run(['python', 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename)), '--view-img'], shell=True)
+    subprocess.run(['python', 'detexct.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename)), '--view-img'], shell=True)
 
     # return os.path.join(uploads_dir, secure_filename(video.filename))
     obj = secure_filename(video.filename)
