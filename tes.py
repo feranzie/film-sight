@@ -6,6 +6,6 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 token = os.environ.get('BARD_API_KEY')
-print(Bard(token).get_answer("form a short sentence describing whats going on within an image of a school bag, trafficlight, 2 persons and a motorcycle detected")["content"])
+print(Bard(token).get_answer("what is the most likely context of an image with a school bag two persons a car and a traffic lig")["content"])
 #print(token)
 
