@@ -1,6 +1,16 @@
-from bardapi import Bard 
+import pyttsx3
 
-token = "ZAifszlN0IlRz_QW5VyhNTuKAyJjRXRqumse4r4gSIGVNKJLIEdMDRBV88DpWJbNB9aSnA."
-print(Bard(token).get_answer("what is the most likely context of an image with a school bag two persons a car and a traffic lig")["content"])
-#print(token)
+# Initialize the TTS engine
+engine = pyttsx3.init()
 
+# Set properties (optional)
+# You can adjust the voice and other properties here
+# engine.setProperty('rate', 150)  # Speed of speech (words per minute)
+# engine.setProperty('volume', 0.9)  # Volume level (0.0 to 1.0)
+
+# Say the given text
+text_to_speak = "Hello, this is a text-to-speech example in Python!"
+engine.say(text_to_speak)
+
+# Wait for the speech to finish
+engine.runAndWait()
