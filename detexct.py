@@ -37,7 +37,7 @@ import threading
 import time
 import torch
 import signal
-
+import pyttsx3
 stop_flag = False
 glob=''
 FILE = Path(__file__).resolve()
@@ -54,6 +54,8 @@ from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
 
 thread_running = True
+# Initialize the TTS engine
+engine = pyttsx3.init()
 stop_event = threading.Event()
 @smart_inference_mode()
 def run(
@@ -241,12 +243,13 @@ def print_variable():
             #print('n')
             LOGGER.info(f'{glob}')
             #LOGGER.info(f'Speed:')
+            engine.say(glob)
+            # Wait for the speech to finish
+            engine.runAndWait()
             time.sleep(10)
     except KeyboardInterrupt:
         print("Program Finished")
         stop_event.set()
-
-
 
 def parse_opt():
     parser = argparse.ArgumentParser()
