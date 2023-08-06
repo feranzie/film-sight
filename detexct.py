@@ -55,7 +55,6 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 thread_running = True
 # Initialize the TTS engine
-engine = pyttsx3.init()
 stop_event = threading.Event()
 @smart_inference_mode()
 def run(
@@ -235,6 +234,7 @@ def run(
     #time.sleep(1)
 
 def print_variable():
+    engine = pyttsx3.init()
     global terminate_flag
     global glob 
     try:

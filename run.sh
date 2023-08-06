@@ -1,1 +1,1 @@
-python detect.py --weights yolov5s.pt --source IMG_9619.MOV --view-img--frequency 10
+python detexct.py --weights yolov5s.pt --source videoplayback.mp4 --view-img

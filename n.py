@@ -1,16 +1,10 @@
-import pyttsx3
+input_string = "video 1/1 (1/29162) C:\\Users\\DELL\\Desktop\\film-sight\\videoplayback.mp4: 384x640 1 person, 1 chair, 1 tv, 1763.0msus"
 
-# Initialize the TTS engine
-engine = pyttsx3.init()
+# Split the string at the semicolon
+split_parts = input_string.split(':')
 
-# Set properties (optional)
-# You can adjust the voice and other properties here
-# engine.setProperty('rate', 150)  # Speed of speech (words per minute)
-# engine.setProperty('volume', 0.9)  # Volume level (0.0 to 1.0)
-
-# Say the given text
-text_to_speak = "the context of the scene is likely a school boy crossing the road with traffic lights and cars"
-engine.say(text_to_speak)
-
-# Wait for the speech to finish
-engine.runAndWait()
+if len(split_parts) > 1:
+    extracted_text = split_parts[1].strip()
+    print(extracted_text)
+else:
+    print("No text found after semicolon.")
