@@ -114,9 +114,8 @@ def run(
     # Run inference
     model.warmup(imgsz=(1 if pt or model.triton else bs, 3, *imgsz))  # warmup
     seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
-    #print(s)
+  
     for path, im, im0s, vid_cap, s in dataset:
-        
         with dt[0]:
             im = torch.from_numpy(im).to(model.device)
             im = im.half() if model.fp16 else im.float()  # uint8 to fp16/32
@@ -141,13 +140,14 @@ def run(
             seen += 1
             if webcam:  # batch_size >= 1
                 p, im0, frame = path[i], im0s[i].copy(), dataset.count
-                sz = f'{i}: '
+                s += f'{i}: '
             else:
                 p, im0, frame = path, im0s.copy(), getattr(dataset, 'frame', 0)
             
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg
             txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # im.txt
+            s += '%gx%g ' % im.shape[2:]  # print string
             #s += '%gx%g ' #% im.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             imc = im0.copy() if save_crop else im0  # for save_crop
@@ -156,10 +156,14 @@ def run(
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
 
+
                 # Print results
-                for c in det[:, 5].unique():
-                    n = (det[:, 5] == c).sum()  # detections per class
-                    sz = f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+                class_labels = [names[int(c)] for c in det[:, 5].unique()]
+                class_counts = [(det[:, 5] == c).sum() for c in det[:, 5].unique()]
+                s += ", ".join([f"{n} {label}{'s' * (n > 1)}" for n, label in zip(class_counts, class_labels)])
+                # for c in det[:, 5].unique():
+                #     n = (det[:, 5] == c).sum()  # detections per class
+                #     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                     
 
                 # Write results
@@ -207,7 +211,7 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)s
-        LOGGER.info(f"{sz }")
+        LOGGER.info(f"{s}")
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image

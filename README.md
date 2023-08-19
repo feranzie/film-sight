@@ -8,7 +8,7 @@ cloud host
 
 bugs:
 
-itinerary
+itinerary:
 detect
 get context
 voice out
