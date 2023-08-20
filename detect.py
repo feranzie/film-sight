@@ -35,7 +35,7 @@ import sys
 from pathlib import Path
 
 import torch
-
+import re
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -147,7 +147,7 @@ def run(
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg
             txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # im.txt
-            s += '%gx%g ' % im.shape[2:]  # print string
+            #s += '%gx%g ' #% im.shape[2:]  # print string
             #s += '%gx%g ' #% im.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             imc = im0.copy() if save_crop else im0  # for save_crop
@@ -211,7 +211,9 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)s
-        LOGGER.info(f"{s}")
+        result = re.findall(r'(?<=mp4:).*', s)
+        print(''.join(result)) 
+        #LOGGER.info(f"{result}")
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
