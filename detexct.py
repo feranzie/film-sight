@@ -38,6 +38,7 @@ import time
 import torch
 import signal
 import pyttsx3
+import re
 stop_flag = False
 glob=''
 FILE = Path(__file__).resolve()
@@ -157,7 +158,7 @@ def run(
                     p = Path(p)  # to Path
                     save_path = str(save_dir / p.name)  # im.jpg
                     txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # im.txt
-                    s += '%gx%g ' % im.shape[2:]  # print string
+                    #s += '%gx%g ' % im.shape[2:]  # print string
                     gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
                     imc = im0.copy() if save_crop else im0  # for save_crop
                     annotator = Annotator(im0, line_width=line_thickness, example=str(names))
@@ -241,9 +242,11 @@ def print_variable():
         while not stop_event.is_set():
             #print(f'30 s elapsed: {s}')
             #print('n')
+            result = re.findall(r'(?<=mp4:).*', glob)
+            #print(''.join(result)) 
             LOGGER.info(f'{glob}')
             #LOGGER.info(f'Speed:')
-            engine.say(glob)
+            engine.say(result)
             # Wait for the speech to finish
             engine.runAndWait()
             time.sleep(10)
