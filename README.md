@@ -1,3 +1,3 @@
 run
 
-`python detecxt.py`
+`python app.py`
